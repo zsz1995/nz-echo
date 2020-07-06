@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "mint-ui": "^2.2.13",
     "mockjs": "^1.1.0",
+    "px2rem-loader": "^0.1.9",
     "vue": "^2.6.11",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.3.4",
@@ -41,7 +42,17 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-undef": 0,
+      "indent": 0,
+      "space-before-function-paren": 0,
+      "camelcase": 0
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   },
   "browserslist": [
     "> 1%",

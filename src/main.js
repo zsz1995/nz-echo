@@ -1,14 +1,18 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from '@/App'
 import router from '@/router'
 
 // 兼容IE9+
 import 'babel-polyfill'
 
+// 自定义
+import '@/common/mock'
+import '@/assets/index'
+
 // 第三方库
 import MintUI, {Indicator, Toast} from 'mint-ui'
-import 'mint-ui/lib/style.css'
 import VueProgressBar from 'vue-progressbar'
+import 'mint-ui/lib/style.css'
 
 Vue.use(MintUI);
 Vue.prototype.$indicator = Indicator;

@@ -12,7 +12,7 @@ module.exports = {
   productionSourceMap: false,
   css: {
     sourceMap: false,
-    requireModuleExtension: false,
+    modules: false,
     loaderOptions: {
       stylus: {
         // 全局引入index.styl文件
