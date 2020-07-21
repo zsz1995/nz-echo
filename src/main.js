@@ -8,6 +8,7 @@ import 'babel-polyfill'
 // 自定义
 import '@/common/mock'
 import '@/assets/index'
+import '@/common/filter'
 
 // 第三方库
 import MintUI, {Indicator, Toast} from 'mint-ui'
