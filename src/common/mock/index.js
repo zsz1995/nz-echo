@@ -6404,10 +6404,9 @@ for(let index = 1; index <= 4; index++) {
         msg: '',
         data: []
     };
-
     if (index < 4) {
         Mock.mock(`${baseURL}/list?page=${index}`, function() {
-            result.data = listJson.splice((index - 1) * rows, index * rows);
+            result.data = listJson.slice((index - 1) * rows, index * rows);
             return result;
         })
     } else {
@@ -6435,8 +6434,3 @@ arr.forEach(item => {
         }
     })
 });
-
-
-
-
-

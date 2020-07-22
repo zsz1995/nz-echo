@@ -1,8 +1,18 @@
 <template>
-    <div id="index" v-infinite-scroll="getListDataMore" :infinite-scroll-disabled="lock" infinite-scroll-immediate-check="false" infinite-scroll-distance="0">
+    <div id="index" v-infinite-scroll="getListDataMore" infinite-scroll-disabled="lock" infinite-scroll-immediate-check="false" infinite-scroll-distance="10">
         <!--  banner  -->
         <music-banner :json="bannerJson"></music-banner>
-        <music-list :json="listJson"></music-list>
+        <!-- 推荐 -->
+        <div class="recommend">
+            <div class="recommen-title">echo每日推荐</div>
+            <!-- 一键播放 -->
+            <div class="playAll" @click="playAll">
+                <div class="my-icon-arrow playAll-icon"></div>
+                <div class="playAll-label" type="default">一键播放</div>
+            </div>
+            <!-- 列表 -->
+            <music-list :json="listJson"></music-list>
+        </div>
         <bottom-loading :loading="loading"></bottom-loading>
     </div>
 </template>
@@ -39,6 +49,10 @@
                 this.lock =false
             }
         },
+        beforeRouteLeave(to, from, next) {
+          this.lock = true;
+          next()
+        },
         methods: {
             getBannerData() {
                 let that = this;
@@ -48,17 +62,19 @@
             },
             getListData() {
                 let that = this;
+                that.$indicator.open();
                 that.page = 1;
                 getList(that.page).then(res => {
                     that.listJson = res.data;
                     that.page = 2;
+                    that.$indicator.close();
                 })
             },
             getListDataMore() {
                 let that = this;
                 that.lock = true;
+                that.loading = 'loading';
                 getList(that.page).then(res => {
-                    console.log(that.page)
                     if (res.data && res.data.length > 0) {
                         that.listJson.push(...res.data);
                         that.page++;
@@ -71,6 +87,8 @@
                     that.loading = 'error';
                     that.lock = false;
                 })
+            },
+            playAll() {
             }
 
         }
