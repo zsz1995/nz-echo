@@ -16,7 +16,7 @@
                 <!-- 按钮 -->
                 <div class="music-control">
                     <!-- 播放列表 -->
-                    <div class="my-icon-menu control-icon"></div>
+                    <div class="my-icon-menu control-icon" @click="$refs.popup.togglePlayListVisible()"></div>
                     <!-- 播放/暂停 -->
                     <div class="control-icon control-icon-mid" :class="audio_play ? 'my-icon-pause' : 'my-icon-play'" @click="SET_AUDIO_PLAY(!audio_play)"></div>
                     <!-- 下一首 -->
@@ -24,20 +24,24 @@
                 </div>
             </div>
             <div class="progress-bar">
-                <div class="progress-bar-inner" :style="`width: ${audio_progress}}`"></div>
+                <div class="progress-bar-inner" :style="`width: ${audio_progress}`"></div>
             </div>
         </div>
+        <popup ref="popup" v-if="audio_data"></popup>
     </div>
 </template>
 
 <script>
     import { mapState, mapMutations, mapGetters } from 'vuex';
+    import Popup from '@/components/Popup';
 
     export default {
         data() {
             return {
-                popupVisible: false
             }
+        },
+        components : {
+          Popup
         },
         computed: {
             ...mapState({
@@ -88,7 +92,7 @@
                 // 播放位置改变
                 _audio.ontimeupdate = () => {
                     // 设置当前时间
-                    this.SET_AUDIO_CURRENT_TIME(Math.floor(_audio.currenttime))
+                    this.SET_AUDIO_CURRENT_TIME(Math.floor(_audio.currentTime))
                 };
                 // 正在播放
                 _audio.onplay = () => {
@@ -137,8 +141,19 @@
                 }
             },
             handleNextAudio() {
-                this.listRepeatMode()
-                // this.randomMode()
+                switch (this.playMode) {
+                    case 'random':
+                        this.randomMode();
+                        break;
+                    case 'singleRepeat':
+                        this.singleRepeatMode();
+                        break;
+                    case 'listRepeat':
+                        this.listRepeatMode();
+                        break;
+                    default:
+                        this.listRepeatMode();
+                }
             }
         }
     }
@@ -157,6 +172,7 @@
             left 0
             right 0
             width 100%
+            z-index 9999
             border-top 1px solid $borderColor
             background-color rgba(255, 255, 255, 0.9)
             .music {

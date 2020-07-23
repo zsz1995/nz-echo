@@ -13,7 +13,7 @@ const options = {
     singleRepeat: {
         label: '单曲循环',
         value: 'singleRepeat',
-        icon: 'my-icon-repeat-one'
+        icon: 'my-icon-repeatone'
     },
     listRepeat: {
         label: '列表循环',

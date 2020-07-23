@@ -21,7 +21,7 @@ const state = {
 const getters = {
     // audio 当前百分比的播放进度
     audio_progress: state => {
-        return (state.audio.currentTime / state.audio.duration * 1000).toFixed(2) + '%';
+        return (state.audio.currentTime / state.audio.duration * 100).toFixed(2) + '%';
     }
 };
 
