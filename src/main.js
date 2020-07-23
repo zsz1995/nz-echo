@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
+import store from '@/store'
 
 // 兼容IE9+
 import 'babel-polyfill'
@@ -14,6 +15,7 @@ import '@/common/filter'
 import MintUI, {Indicator, Toast} from 'mint-ui'
 import VueProgressBar from 'vue-progressbar'
 import 'mint-ui/lib/style.css'
+
 
 Vue.use(MintUI);
 Vue.prototype.$indicator = Indicator;
@@ -36,5 +38,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app');

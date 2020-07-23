@@ -1,34 +1,50 @@
 <template>
-  <div id="app">
-    <!--视图层-->
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-    <!--页面加载进度条-->
-    <vue-progress-bar></vue-progress-bar>
-  </div>
+    <div id="app">
+        <!--视图层-->
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+        <!--音乐控制条-->
+        <music-bar></music-bar>
+        <!--页面加载进度条-->
+        <vue-progress-bar></vue-progress-bar>
+    </div>
 </template>
 
 <script>
 
-export default {
-  name: 'App',
-  components: {
-  },
-  created() {
-    this.$Progress.start();
-    this.$router.beforeEach((to, from, next) => {
-      this.$Progress.start();
-      next();
-    });
-    this.$router.afterEach(() => {
-      this.$Progress.finish();
-    })
-  },
-  mounted(){
-    this.$Progress.finish();
-  }
-}
+    import MusicBar from '@/components/MusicBar';
+    import {mapState, mapActions} from "vuex";
+    export default {
+        name: 'App',
+        components: {
+            MusicBar
+        },
+        computed: {
+            ...mapState([
+                'audio'
+            ])
+        },
+        created() {
+            this.INIT_APP_CACHE();
+            this.$Progress.start();
+            this.$router.beforeEach((to, from, next) => {
+                this.$Progress.start();
+                next();
+            });
+            this.$router.afterEach(() => {
+                this.$Progress.finish();
+            })
+        },
+        mounted(){
+            this.$Progress.finish();
+        },
+        methods: {
+            ...mapActions([
+                'INIT_APP_CACHE'
+            ])
+        }
+    }
 </script>
 
 <style lang="stylus">

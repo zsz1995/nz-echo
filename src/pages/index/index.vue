@@ -18,6 +18,7 @@
 </template>
 
 <script>
+    import {mapState, mapMutations} from 'vuex';
     import MusicBanner from '@/components/MusicBanner';
     import MusicList from '@/components/MusicList';
     import BottomLoading from '@/components/BottomLoading';
@@ -40,6 +41,11 @@
                 lock: false
             }
         },
+        computed: {
+            ...mapState([
+                'audio'
+            ])
+        },
         mounted() {
             this.getBannerData();
             this.getListData();
@@ -54,6 +60,11 @@
           next()
         },
         methods: {
+            ...mapMutations([
+                'SET_AUDIO_DATA',
+                'SET_PLAY_MODE',
+                'SET_PLAY_LIST'
+            ]),
             getBannerData() {
                 let that = this;
                 getBanner().then(res => {
@@ -68,6 +79,7 @@
                     that.listJson = res.data;
                     that.page = 2;
                     that.$indicator.close();
+                    // that.SET_AUDIO_DATA(that.listJson[0])
                 })
             },
             getListDataMore() {
@@ -89,6 +101,17 @@
                 })
             },
             playAll() {
+                // 设置播放列表
+                this.SET_PLAY_LIST(this.listJson);
+                this.$toast('已添加到播放列表');
+                // 当前音乐是否等于即将要播放的音乐 ? 重新加载播放 : 播放即将的音乐
+                if (this.audio.data && this.listJson[0].sound.id === this.audio.data.sound.id) {
+                    this.audio.ele.load();
+                    this.audio.ele.play()
+                } else {
+                    this.SET_AUDIO_DATA(this.listJson[0]);
+                }
+
             }
 
         }
