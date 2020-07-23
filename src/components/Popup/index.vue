@@ -9,16 +9,21 @@
                         播放列表
                         <span class="play-list-count">{{ playList.length }}首</span>
                     </div>
-                    <div class="play-list-mode-btn right" :class="handleModeIcon()" @click="playModeVisible = true"></div>
+                    <div class="play-list-mode-btn right" :class="handleModeIcon()"
+                         @click="playModeVisible = true"></div>
                 </div>
 
                 <ul class="play-list" v-if="playList && playList.length > 0">
-                    <li class="play-list-item" v-for="item in playList" :key="item.sound.id" :class="{'playing' : audio.data.sound.id === item.sound.id}" @click="musicChange(item)">
+                    <li class="play-list-item" v-for="item in playList" :key="item.sound.id"
+                        :class="{'playing' : audio.data.sound.id === item.sound.id}" @click="musicChange(item)">
                         <div class="item-name">
                             <div class="name-icon-container">
-                                <div class="name-icon" :class="audio.data.sound.id === item.sound.id ? 'my-icon-circle-play' : 'small-circle'"></div>
+                                <div class="name-icon"
+                                     :class="audio.data.sound.id === item.sound.id ? 'my-icon-circle-play' : 'small-circle'"></div>
                             </div>
-                            <div class="name-value" :class="audio.data.sound.id === item.sound.id ? 'onPlay': ''"> {{ item.sound.name }}</div>
+                            <div class="name-value" :class="audio.data.sound.id === item.sound.id ? 'onPlay': ''"> {{
+                                item.sound.name }}
+                            </div>
                         </div>
                         <div class="item-close my-icon-close" @click.stop="deletePlayListItem(item, index)"></div>
                     </li>
@@ -29,7 +34,9 @@
         <!-- 播放模式 -->
         <mt-popup class="play-mode-sheet" v-model="playModeVisible" position="bottom">
             <div class="play-mode-list">
-                <mt-cell class="play-mode-item" :class="{'active' : playMode === item.value}" v-for="(item, index) in playModeOptions" :key="index" :title="item.label" @click.native="playModeChange(item)">
+                <mt-cell class="play-mode-item" :class="{'active' : playMode === item.value}"
+                         v-for="(item, index) in playModeOptions" :key="index" :title="item.label"
+                         @click.native="playModeChange(item)">
                     <div class="item-icon" :class="item.icon"></div>
                 </mt-cell>
             </div>
@@ -56,6 +63,22 @@
                 'playMode'
             ])
         },
+        watch: {
+            $route() {
+              this.playListVisible = this.playModeVisible = false;
+            },
+            playListVisible(val) {
+                // 打开弹窗禁止页面滚动
+                if (val) {
+                    document.querySelector('html').style.overflow = 'hidden';
+                    document.querySelector('body').style.overflow = 'hidden';
+                } else {
+                    document.querySelector('html').style.overflow = '';
+                    document.querySelector('body').style.overflow = '';
+                }
+
+            }
+        },
         methods: {
             ...mapMutations([
                 'SET_AUDIO_DATA',
@@ -71,7 +94,7 @@
                 this.SET_PLAY_MODE(item.value);
             },
             handleModeIcon() {
-              return findActiveMode(this.playMode).icon;
+                return findActiveMode(this.playMode).icon;
             },
             // 清空播放列表
             clearPlayList() {
@@ -93,18 +116,22 @@
         .v-modal {
             opacity: 0;
         }
+
         &.playMode {
             .v-modal {
                 opacity: 0.8;
             }
         }
     }
+
     .play-list-sheet {
         width: 100%;
         border-top: 1px solid $borderColor;
+
         .play-list-container {
             margin-bottom: $musicBarHeight;
         }
+
         .play-list-header {
             position: relative;
             flex-center();
@@ -112,12 +139,15 @@
             color: $appColor;
             font-size: toRem(14);
             margin-top: toRem(8);
+
             .play-list-title {
                 white-space: nowrap;
+
                 .play-list-count {
                     font-size: toRem(12);
                 }
             }
+
             .play-list-mode-btn {
                 position: absolute;
                 top: 50%;
@@ -126,10 +156,12 @@
                 align-items: center;
                 justify-content: center;
                 font-size: toRem(20);
+
                 &.left {
                     left: toRem(18);
                     font-size: toRem(14);
                 }
+
                 &.right {
                     right: toRem(5);
                     width: toRem(36);
@@ -137,12 +169,14 @@
                 }
             }
         }
+
         .play-list {
             position: relative;
             max-height: toRem(135);
             overflow-x: hidden;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+
             .play-list-item {
                 position: relative;
                 display: flex;
@@ -150,17 +184,21 @@
                 padding: toRem(7) toRem(8);
                 border-bottom: 1px solid $borderColor;
                 line-height: 1;
+
                 .item-name {
                     display: flex;
                     align-items: center;
+
                     .name-icon-container {
                         flex-center();
                         width: toRem(18);
                         height: toRem(18);
                         margin: 0 toRem(5);
+
                         .name-icon {
                             color: $appColor;
                             font-size: toRem(18);
+
                             &.smallCircle {
                                 width: toRem(4);
                                 height: toRem(4);
@@ -169,16 +207,19 @@
                             }
                         }
                     }
+
                     .name-value {
                         text-ellipsis();
                         max-width: toRem(295);
                         color: $infoColor;
                         font-size: toRem(14);
+
                         &.onPlay {
                             color: $mainColor;
                         }
                     }
                 }
+
                 .item-close {
                     color: $lessColor;
                     font-size: toRem(20);
@@ -187,6 +228,7 @@
                 }
             }
         }
+
         .play-list-nothing {
             flex-center();
             color: $infoColor;
@@ -195,33 +237,41 @@
             height: toRem(60);
         }
     }
+
     .play-mode-sheet {
         width: 100%;
         z-index: 10000 !important;
+
         .play-mode-list {
             position: relative;
             width: 100%;
             padding: toRem(8) 0;
+
             .play-mode-item {
                 width: 100%;
                 min-height: toRem(48);
                 background: none;
+
                 &.active {
                     .mint-cell-text {
                         color: $appColor;
                     }
+
                     .item-icon {
                         color: $appColor;
                     }
                 }
+
                 .mint-cell-wrapper {
                     padding: 0 toRem(16);
                     background: none;
                 }
+
                 .mint-cell-text {
                     color: $lessColor;
                     font-size: toRem(14);
                 }
+
                 .item-icon {
                     color: $lessColor;
                     font-size: toRem(24);

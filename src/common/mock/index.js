@@ -6420,7 +6420,7 @@ for(let index = 1; index <= 4; index++) {
 Mock.mock(`${baseURL}/other`, {
     code: 0,
     msg: '',
-    data: []
+    data: otherJson
 });
 
 // 音乐详情

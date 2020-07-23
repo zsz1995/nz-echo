@@ -3,7 +3,7 @@
         <div id="musicBar" v-if="audio_data">
             <div class="music">
                 <!-- audio -->
-                <audio id="audio" autoplay="autoplay" :src="audio_data.sound.source"></audio>
+                <audio id="audio" :src="audio_data.sound.source"></audio>
                 <!-- 封面 -->
                 <router-link class="music-cover" :to="{path: 'detail', query: {id: audio_data.sound.id}}">
                     <img :src="audio_data.sound.pic_500" alt="">
@@ -106,7 +106,19 @@
                 _audio.onended = () => {
                     this.SET_AUDIO_PLAY(false);
                     // 加载播放模式逻辑
-
+                    switch (this.playMode) {
+                        case 'random':
+                            this.randomMode();
+                            break;
+                        case 'singleRepeat':
+                            this.singleRepeatMode();
+                            break;
+                        case 'listRepeat':
+                            this.listRepeatMode();
+                            break;
+                        default:
+                            this.listRepeatMode();
+                    }
                 }
             },
             // 随机播放

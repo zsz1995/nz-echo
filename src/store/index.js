@@ -37,7 +37,7 @@ const mutations = {
             state.playList.unshift(val)
         }
         // 判断是否跳更新详情页 (当前是详情页则进行replace)
-        if (router.history.current.name === 'detail') {
+        if (router.history.current.name === 'detail' && !router.history.current.query.id === val.sound.id) {
             router.replace({name: 'detail', query: {'id': val.sound.id }})
         }
     },
