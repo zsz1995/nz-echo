@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" :class="{'musicBar-on': audio.data}">
         <!--视图层-->
         <keep-alive>
             <router-view></router-view>
@@ -48,4 +48,13 @@
 </script>
 
 <style lang="stylus">
+    #app {
+        position: relative;
+        &.musicBar-on {
+            padding-bottom: $musicBarHeight;
+        }
+        a {
+            color: $linkColor;
+        }
+    }
 </style>

@@ -171,7 +171,7 @@
     }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
     #musicBarContainer {
         position fixed
         bottom 0
@@ -180,9 +180,9 @@
         z-index 9999
         #musicBar {
             position absolute
-            bottom 0
             left 0
             right 0
+            bottom 0
             width 100%
             z-index 9999
             border-top 1px solid $borderColor
